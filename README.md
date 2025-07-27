@@ -293,7 +293,11 @@ hint : 받는 사람 기능 구현할 때 useFieldArray 사용?
 </div>
 </details>
 
-## 📌 2단계 - 구현 기능 목록
+<details>
+<summary>3단계 구현기능 목록 보기</summary>
+<div markdown="1">
+
+## 📌 3단계 - 구현 기능 목록
 
 ### 1. 테마 상품 목록 페이지
 
@@ -318,3 +322,12 @@ hint : 받는 사람 기능 구현할 때 useFieldArray 사용?
 - 상품 리스트가 없으면 빈 페이지를 보여주기
 
 -> 무한스크롤 하려면 기존 훅 재사용하지 않는 게 좋을 것 같다.
+
+</div>
+</details>
+
+---
+
+# react-gift-product-detail
+
+## 📌 1단계 - 구현 기능 목록
