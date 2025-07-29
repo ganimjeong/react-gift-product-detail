@@ -15,7 +15,7 @@ import { OrderFormSchema } from './schemas/orderSchema';
 import type { z } from 'zod';
 import ReceiverSection from './ReceiverInfo/ReceiverSection';
 import { useAuth } from '@/contexts/AuthContext';
-import { createOrder } from './api/order';
+import { useCreateOrder } from './api/order';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const OrderPage = () => {
@@ -55,6 +55,17 @@ const OrderPage = () => {
   const { id } = useParams<{ id: string }>();
   const productId = parseInt(id ?? '', 10);
 
+  const mutation = useCreateOrder({
+    authToken: userInfo?.authToken ?? '',
+    onSuccess: () => {
+      alert('주문이 완료되었습니다!');
+      navigate('/');
+    },
+    onError: () => {
+      alert('주문 도중 오류가 발생했습니다.');
+    },
+  });
+
   const onSubmit = async (data: OrderFormType) => {
     if (!userInfo?.authToken) {
       window.location.href = '/login';
@@ -66,7 +77,7 @@ const OrderPage = () => {
     }
 
     const orderData = {
-      productId: productId,
+      productId,
       message: data.message,
       messageCardId: String(selectedCard?.id ?? ''),
       ordererName: data.senderName,
@@ -80,14 +91,7 @@ const OrderPage = () => {
     //test
     console.log('주문 요청 데이터:', orderData);
 
-    try {
-      await createOrder(orderData, userInfo.authToken);
-      alert('주문이 완료되었습니다!');
-      navigate('/');
-    } catch (err) {
-      console.error('주문 실패:', err);
-      alert('주문 도중 오류가 발생했습니다.');
-    }
+    mutation.mutate(orderData);
   };
 
   return (
