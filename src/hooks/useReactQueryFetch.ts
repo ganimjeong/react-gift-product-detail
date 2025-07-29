@@ -27,5 +27,3 @@ export const useReactQueryFetch = <T>(url: string | null) => {
     enabled: !!url, // url 있을때만
   });
 };
-
-//TODO : 적용 되면 useFetch 지우기
