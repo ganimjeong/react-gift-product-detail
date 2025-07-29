@@ -2,7 +2,7 @@ import * as S from './GiftRankingSection.styles';
 import { useEffect, useState, useCallback } from 'react';
 import FilterGroup from './FilterGroup';
 import { useSearchParams } from 'react-router-dom';
-import { useFetch } from '@/hooks/useFetch';
+import { useReactQueryFetch } from '@/hooks/useReactQueryFetch';
 import ProductListRenderer from '@/components/ProductList/ProductListRenderer';
 interface Product {
   id: number;
@@ -48,7 +48,7 @@ const GiftRankingSection = () => {
   const [selectedRankType, setSelectedRankType] = useState<RankType>(initialRankType);
 
   const url = `http://localhost:3000/api/products/ranking?targetType=${selectedTargetType}&rankType=${selectedRankType}`;
-  const { data: products, isLoading, error } = useFetch<Product[]>(url);
+  const { data: response, isLoading, error } = useReactQueryFetch<Product[]>(url);
 
   useEffect(() => {
     setSearchParams({
@@ -80,7 +80,11 @@ const GiftRankingSection = () => {
         onSelect={handleReceiverSelect}
       />
       <FilterGroup items={sorts} selected={currentSortText} onSelect={handleSortSelect} />
-      <ProductListRenderer isLoading={isLoading} error={error} products={products} />
+      <ProductListRenderer
+        isLoading={isLoading}
+        error={error?.message ?? null}
+        products={response?.data}
+      />
     </S.Section>
   );
 };
