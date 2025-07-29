@@ -1,5 +1,5 @@
 import { PATH } from '@/constants/paths';
-import { useFetch } from '@/hooks/useFetch';
+import { useReactQueryFetch } from '@/hooks/useReactQueryFetch';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 
@@ -13,21 +13,21 @@ interface ThemeInfo {
 
 const ThemeHero = ({ themeId }: { themeId: string }) => {
   const navigate = useNavigate();
-  const { data, isLoading, error } = useFetch<ThemeInfo>(
+  const { data, isLoading, error } = useReactQueryFetch<ThemeInfo>(
     `http://localhost:3000/api/themes/${themeId}/info`
   );
 
   if (error) {
-    if (error.includes('존재하지 않는 리소스입니다.')) {
+    if (error.message.includes('존재하지 않는 리소스입니다.')) {
       navigate(PATH.ROOT);
       return null;
     }
-    return <div>에러가 발생했습니다: {error}</div>;
+    return <div>에러가 발생했습니다: {error.message}</div>;
   }
 
   if (isLoading || !data) return <div>로딩 중...</div>;
 
-  const theme = data;
+  const theme = data.data;
 
   return (
     <StyledSection backgroundColor={theme.backgroundColor || '#aaaaaa'}>
