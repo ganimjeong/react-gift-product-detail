@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useFetch } from '@/hooks/useFetch';
+import { useReactQueryFetch } from '@/hooks/useReactQueryFetch';
 import * as S from './ProductSummary.styles';
 
 interface ProductSummaryData {
@@ -16,7 +16,8 @@ const ProductSummary = () => {
 
   const url = isNaN(productId) ? null : `http://localhost:3000/api/products/${productId}/summary`;
 
-  const { data: product, isLoading, error } = useFetch<ProductSummaryData>(url);
+  const { data, isLoading, error } = useReactQueryFetch<ProductSummaryData>(url);
+  const product = data?.data;
 
   if (isNaN(productId)) {
     return (
@@ -37,7 +38,7 @@ const ProductSummary = () => {
   if (error) {
     return (
       <S.Wrapper style={{ textAlign: 'center', padding: '20px', color: 'red' }}>
-        <p>{error}</p>
+        <p>{error.message}</p>
       </S.Wrapper>
     );
   }
