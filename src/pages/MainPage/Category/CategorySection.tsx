@@ -1,7 +1,6 @@
 import * as S from './CategorySection.styles';
 import CategoryItem from './CategoryItem';
-import { useFetch } from '@/hooks/useFetch';
-
+import { useReactQueryFetch } from '@/hooks/useReactQueryFetch';
 interface Category {
   themeId: number;
   name: string;
@@ -10,7 +9,8 @@ interface Category {
 
 const CategorySection = () => {
   const url = 'http://localhost:3000/api/themes';
-  const { data: categories = [], isLoading, error } = useFetch<Category[]>(url);
+  const { data: response, isLoading, error } = useReactQueryFetch<Category[]>(url);
+  const categories = response?.data || [];
 
   if (isLoading) {
     return (
@@ -20,7 +20,7 @@ const CategorySection = () => {
     );
   }
 
-  if (error || !categories || categories.length === 0) {
+  if (error || categories.length === 0) {
     return null;
   }
 
