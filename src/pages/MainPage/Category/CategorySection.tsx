@@ -1,6 +1,5 @@
 import * as S from './CategorySection.styles';
 import CategoryItem from './CategoryItem';
-import { useReactQueryFetch } from '@/hooks/useReactQueryFetch';
 interface Category {
   themeId: number;
   name: string;
