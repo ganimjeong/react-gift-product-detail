@@ -331,3 +331,8 @@ hint : 받는 사람 기능 구현할 때 useFieldArray 사용?
 # react-gift-product-detail
 
 ## 📌 1단계 - 구현 기능 목록
+
+### 1. React Query 사용하기
+
+- 기존에 작성했던 API를 React Query를 이용해서 리팩터링
+  - GET, POST 모두
