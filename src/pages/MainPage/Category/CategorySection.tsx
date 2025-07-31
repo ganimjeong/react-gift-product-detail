@@ -1,14 +1,16 @@
 import * as S from './CategorySection.styles';
 import CategoryItem from './CategoryItem';
-interface Category {
-  themeId: number;
-  name: string;
-  image: string;
-}
+import { useReactQueryFetch } from '@/hooks/useReactQueryFetch';
+import { fetchThemeList } from '@/api/themes';
+import type { Category } from '@/api/themes';
 
 const CategorySection = () => {
-  const url = 'http://localhost:3000/api/themes';
-  const { data: response, isLoading, error } = useReactQueryFetch<Category[]>(url);
+  const {
+    data: response,
+    isLoading,
+    error,
+  } = useReactQueryFetch<Category[]>(['themeList'], fetchThemeList);
+
   const categories = response?.data || [];
 
   if (isLoading) {
