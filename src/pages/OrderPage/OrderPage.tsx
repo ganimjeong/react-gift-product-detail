@@ -15,7 +15,7 @@ import { OrderFormSchema } from './schemas/orderSchema';
 import type { z } from 'zod';
 import ReceiverSection from './ReceiverInfo/ReceiverSection';
 import { useAuth } from '@/contexts/AuthContext';
-import { useCreateOrder } from './api/order';
+import { useCreateOrder } from '@/api/order';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const OrderPage = () => {

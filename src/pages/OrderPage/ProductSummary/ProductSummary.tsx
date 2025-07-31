@@ -15,7 +15,7 @@ const ProductSummary = () => {
   const productId = parseInt(id ?? '', 10);
 
   const url = isNaN(productId) ? null : `http://localhost:3000/api/products/${productId}/summary`;
-
+  if (!url) return null;
   const { data, isLoading, error } = useReactQueryFetch<ProductSummaryData>(url);
   const product = data?.data;
 

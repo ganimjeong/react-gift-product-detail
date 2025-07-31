@@ -343,3 +343,10 @@ hint : 받는 사람 기능 구현할 때 useFieldArray 사용?
 ### 2. React Query 사용하기 : POST
 
 - OrderPage와 `api/orders.ts`을 ReactQuery를 사용하도록 수정
+
+---
+
+### 리팩토링
+
+- API 호출을 사용하는 위치에서 직접 선언해서 사용하는 구조 개선
+  - axios로 공통 baseURL을 가진 instance를 정의해두고, 각 API는 api/ 디렉토리 내에서 기능 단위로 나눠 관리

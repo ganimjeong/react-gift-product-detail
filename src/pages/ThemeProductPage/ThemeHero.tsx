@@ -2,6 +2,7 @@ import { PATH } from '@/constants/paths';
 import { useReactQueryFetch } from '@/hooks/useReactQueryFetch';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { fetchThemeInfo } from '@/api/themes';
 
 interface ThemeInfo {
   themeId: number;
@@ -13,8 +14,8 @@ interface ThemeInfo {
 
 const ThemeHero = ({ themeId }: { themeId: string }) => {
   const navigate = useNavigate();
-  const { data, isLoading, error } = useReactQueryFetch<ThemeInfo>(
-    `http://localhost:3000/api/themes/${themeId}/info`
+  const { data, isLoading, error } = useReactQueryFetch<ThemeInfo>(['themeInfo', themeId], () =>
+    fetchThemeInfo(themeId)
   );
 
   if (error) {
