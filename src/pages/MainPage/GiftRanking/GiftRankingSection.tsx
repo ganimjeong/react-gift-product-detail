@@ -4,27 +4,12 @@ import FilterGroup from './FilterGroup';
 import { useSearchParams } from 'react-router-dom';
 import { useReactQueryFetch } from '@/hooks/useReactQueryFetch';
 import ProductListRenderer from '@/components/ProductList/ProductListRenderer';
-interface Product {
-  id: number;
-  name: string;
-  price: {
-    basicPrice: number;
-    sellingPrice: number;
-    discountRate: number;
-  };
-  imageURL: string;
-  brandInfo: {
-    id: number;
-    name: string;
-    imageURL: string;
-  };
-}
+import { fetchProductRanking } from '@/api/products';
+import type { TargetType, RankType, Product } from '@/api/products';
 
 const GiftRankingSection = () => {
   const receivers = ['전체', '여성이', '남성이', '청소년이'];
   const sorts = ['받고 싶어한', '많이 선물한', '위시로 받은'];
-  type TargetType = 'ALL' | 'FEMALE' | 'MALE' | 'TEEN';
-  type RankType = 'MANY_WISH' | 'MANY_RECEIVE' | 'MANY_WISH_RECEIVE';
 
   const receiverOptions: { text: string; apiValue: TargetType }[] = [
     { text: '전체', apiValue: 'ALL' },
@@ -47,8 +32,13 @@ const GiftRankingSection = () => {
   const [selectedTargetType, setSelectedTargetType] = useState<TargetType>(initialTargetType);
   const [selectedRankType, setSelectedRankType] = useState<RankType>(initialRankType);
 
-  const url = `http://localhost:3000/api/products/ranking?targetType=${selectedTargetType}&rankType=${selectedRankType}`;
-  const { data: response, isLoading, error } = useReactQueryFetch<Product[]>(url);
+  const {
+    data: response,
+    isLoading,
+    error,
+  } = useReactQueryFetch<Product[]>(['productRanking', selectedTargetType, selectedRankType], () =>
+    fetchProductRanking(selectedTargetType, selectedRankType)
+  );
 
   useEffect(() => {
     setSearchParams({
