@@ -331,3 +331,22 @@ hint : 받는 사람 기능 구현할 때 useFieldArray 사용?
 # react-gift-product-detail
 
 ## 📌 1단계 - 구현 기능 목록
+
+- 기존에 작성했던 API를 React Query를 이용해서 리팩터링
+
+### 1. React Query 사용하기 : GET
+
+- useFetch 훅 대신 ReactQuery를 사용하는 useReactQueryFetch 훅 설계
+- useFetch를 사용하던 기존 페이지들 전부 리팩토링
+  - 데이터 구조, 에러 타입 변경되는 것에 유의하여 리팩토링
+
+### 2. React Query 사용하기 : POST
+
+- OrderPage와 `api/orders.ts`을 ReactQuery를 사용하도록 수정
+
+---
+
+### 리팩토링
+
+- API 호출을 사용하는 위치에서 직접 선언해서 사용하는 구조 개선
+  - axios로 공통 baseURL을 가진 instance를 정의해두고, 각 API는 api/ 디렉토리 내에서 기능 단위로 나눠 관리

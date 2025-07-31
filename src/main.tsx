@@ -14,6 +14,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { PATH } from '@/constants/paths';
 import ThemeProductPage from '@/pages/ThemeProductPage/ThemeProductPage';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
@@ -47,13 +49,13 @@ const router = createBrowserRouter([
   },
 ]);
 
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <ThemeProvider theme={theme}>
-      <AuthProvider>
-        <RouterProvider router={router} />
-        <ToastContainer position="top-center" autoClose={2000} />
-      </AuthProvider>
-    </ThemeProvider>
+createRoot(document.getElementById('root')!).render(
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <AuthProvider>
+          <RouterProvider router={router} />
+          <ToastContainer position="top-center" autoClose={2000} />
+        </AuthProvider>
+      </ThemeProvider>
   </StrictMode>
 );

@@ -1,22 +1,11 @@
 import { useParams } from 'react-router-dom';
-import { useFetch } from '@/hooks/useFetch';
+import { useReactQueryFetch } from '@/hooks/useReactQueryFetch';
+import { fetchProductSummary } from '@/api/products';
 import * as S from './ProductSummary.styles';
-
-interface ProductSummaryData {
-  id: number;
-  name: string;
-  price: number;
-  imageURL: string;
-  brandName?: string;
-}
 
 const ProductSummary = () => {
   const { id } = useParams<{ id: string }>();
   const productId = parseInt(id ?? '', 10);
-
-  const url = isNaN(productId) ? null : `http://localhost:3000/api/products/${productId}/summary`;
-
-  const { data: product, isLoading, error } = useFetch<ProductSummaryData>(url);
 
   if (isNaN(productId)) {
     return (
@@ -25,6 +14,12 @@ const ProductSummary = () => {
       </S.Wrapper>
     );
   }
+
+  const { data, isLoading, error } = useReactQueryFetch(['productSummary', productId], () =>
+    fetchProductSummary(productId)
+  );
+
+  const product = data?.data;
 
   if (isLoading) {
     return (
@@ -37,7 +32,7 @@ const ProductSummary = () => {
   if (error) {
     return (
       <S.Wrapper style={{ textAlign: 'center', padding: '20px', color: 'red' }}>
-        <p>{error}</p>
+        <p>{error.message}</p>
       </S.Wrapper>
     );
   }
