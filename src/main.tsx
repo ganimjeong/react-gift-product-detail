@@ -5,15 +5,15 @@ import { ThemeProvider } from '@emotion/react';
 import { theme } from '@/styles/theme';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { AuthProvider } from '@/contexts/AuthContext';
-import LoginPage from '@/pages/LoginPage/LoginPage';
+import LoginPage from '@/pages/LoginPage';
 import NotFoundPage from '@/pages/NotFoundPage.tsx';
 import MyPage from '@/pages/MyPage/MyPage';
 import PrivateRoute from '@/PrivateRoute';
-import OrderPage from '@/pages/OrderPage/OrderPage';
+import OrderPage from '@/pages/OrderPage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { PATH } from '@/constants/paths';
-import ThemeProductPage from '@/pages/ThemeProductPage/ThemeProductPage';
+import ThemeProductPage from '@/pages/ThemeProductPage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import ProductDetailPage from './pages/ProductDetailPage/ProductDetailPage';
 
