@@ -15,7 +15,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { PATH } from '@/constants/paths';
 import ThemeProductPage from '@/pages/ThemeProductPage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import ProductDetailPage from './pages/ProductDetailPage';
+import ProductDetailPage from '@/pages/ProductDetailPage';
 
 const queryClient = new QueryClient();
 
