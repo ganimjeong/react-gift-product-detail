@@ -392,7 +392,7 @@ hint : 받는 사람 기능 구현할 때 useFieldArray 사용?
 
 ### 테스트코드 작성
 
-- src/components에 있는 Form Field에 대한 테스트 코드를 작성 (텍스트 인풋 박스)
+- src/components에 있는 TextInputBox에 대한 테스트 코드를 작성
 
 - 로그인 페이지에 대한 테스트 시나리오를 작성하고 테스트 코드를 작성
 
