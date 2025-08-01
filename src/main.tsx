@@ -1,6 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import App from '@/App.tsx';
+import App from '@/pages/MainPage/App';
 import { ThemeProvider } from '@emotion/react';
 import { theme } from '@/styles/theme';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
@@ -15,7 +15,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { PATH } from '@/constants/paths';
 import ThemeProductPage from '@/pages/ThemeProductPage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import ProductDetailPage from './pages/ProductDetailPage/ProductDetailPage';
+import ProductDetailPage from './pages/ProductDetailPage';
 
 const queryClient = new QueryClient();
 
