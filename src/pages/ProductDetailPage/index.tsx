@@ -13,6 +13,7 @@ import {
 import WishButton from './WishButton';
 import { useEffect, useState } from 'react';
 import { useReactQueryFetch } from '@/hooks/useReactQueryFetch';
+import ProductOverview from './ProductOverview';
 
 const ProductDetailPage = () => {
   const { productId } = useParams();
@@ -62,12 +63,7 @@ const ProductDetailPage = () => {
       <NavigationBar />
 
       <Container>
-        <Image src={product.imageURL} alt={product.name} />
-        <InfoSection>
-          <Brand>{product.brandInfo.name}</Brand>
-          <Name>{product.name}</Name>
-          <Price>{product.price.sellingPrice.toLocaleString()}원</Price>
-        </InfoSection>
+        <ProductOverview product={product} />
 
         <SectionDivider />
 
@@ -101,33 +97,6 @@ export default ProductDetailPage;
 const Container = styled.div`
   padding: 16px;
   padding-bottom: 72px;
-`;
-
-const Image = styled.img`
-  width: 100%;
-  border-radius: 0px;
-  object-fit: cover;
-`;
-
-const InfoSection = styled.div`
-  margin-top: 16px;
-`;
-
-const Brand = styled.div`
-  font-size: 14px;
-  color: ${({ theme }) => theme.color.gray600};
-`;
-
-const Name = styled.div`
-  font-size: 18px;
-  font-weight: bold;
-  margin-top: 4px;
-`;
-
-const Price = styled.div`
-  font-size: 16px;
-  font-weight: bold;
-  margin-top: 8px;
 `;
 
 const TabNav = styled.div`
