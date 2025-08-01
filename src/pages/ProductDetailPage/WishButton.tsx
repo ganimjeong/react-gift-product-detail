@@ -5,13 +5,14 @@ import isPropValid from '@emotion/is-prop-valid';
 interface WishButtonProps {
   wishCount: number;
   isWished: boolean;
+  onClick: () => void;
 }
 
-const WishButton = ({ wishCount, isWished }: WishButtonProps) => {
+const WishButton = ({ wishCount, isWished, onClick }: WishButtonProps) => {
   return (
-    <WishIcon>
+    <WishIcon onClick={onClick}>
       <StyledHeartIcon isWished={isWished} />
-      <Count>{wishCount}</Count>
+      <Count isWished={isWished}>{wishCount}</Count>
     </WishIcon>
   );
 };
@@ -23,8 +24,8 @@ const StyledHeartIcon = styled(Heart, {
 })<{ isWished: boolean }>`
   width: 18px;
   height: 18px;
-  color: ${({ isWished, theme }) => (isWished ? theme.color.red00 : theme.color.gray600)};
-  fill: ${({ isWished, theme }) => (isWished ? theme.color.red00 : 'none')};
+  color: ${({ isWished, theme }) => (isWished ? theme.color.red700 : theme.color.gray600)};
+  fill: ${({ isWished, theme }) => (isWished ? theme.color.red700 : 'none')};
 `;
 
 const WishIcon = styled.button`
@@ -46,8 +47,8 @@ const WishIcon = styled.button`
   padding: 4px 0;
 `;
 
-const Count = styled.div`
+const Count = styled.div<{ isWished: boolean }>`
   font-size: 10px;
-  color: ${({ theme }) => theme.color.gray600};
+  color: ${({ isWished, theme }) => (isWished ? theme.color.text.default : theme.color.gray600)};
   line-height: 1;
 `;

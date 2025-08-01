@@ -15,7 +15,7 @@ import {
 } from '@/api/products';
 
 import WishButton from './WishButton';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const ProductDetailPage = () => {
   const { productId } = useParams();
@@ -41,11 +41,34 @@ const ProductDetailPage = () => {
     enabled: !!productId,
   });
 
-  const { data: wishCount } = useQuery<WishCountData>({
+  const { data: wishData } = useQuery<WishCountData>({
     queryKey: ['wishCount', productId],
     queryFn: () => fetchWishCount(Number(productId)),
     enabled: !!productId,
   });
+
+  //위시버튼
+  const [wishCount, setWishCount] = useState(0);
+  const [isWished, setIsWished] = useState(false);
+
+  useEffect(() => {
+    if (wishData) {
+      setWishCount(wishData.wishCount);
+      setIsWished(wishData.isWished);
+    }
+  }, [wishData]);
+
+  const handleWishToggle = () => {
+    if (isWished) {
+      setWishCount((c) => c - 1);
+      setIsWished(false);
+    } else {
+      setWishCount((c) => c + 1);
+      setIsWished(true);
+    }
+
+    // 실제 API 콜은 생략하거나 여기서 호출 가능 (성공 여부에 따라 상태 롤백 가능)
+  };
 
   if (isProductLoading || !product) return <div>Loading...</div>;
 
@@ -84,7 +107,7 @@ const ProductDetailPage = () => {
         </SectionContent>
       </Container>
 
-      <WishButton wishCount={wishCount?.wishCount ?? 0} isWished={wishCount?.isWished ?? false} />
+      <WishButton wishCount={wishCount} isWished={isWished} onClick={handleWishToggle} />
       <BottomButton>주문하기</BottomButton>
     </Layout>
   );
