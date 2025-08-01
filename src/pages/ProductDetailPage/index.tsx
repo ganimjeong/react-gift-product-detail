@@ -1,33 +1,53 @@
-import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import styled from '@emotion/styled';
 import Layout from '@/components/Layout';
 import NavigationBar from '@/components/NavigationBar/NavigationBar';
 import BottomButton from '@/components/BottomButton';
 import SectionDivider from '@/components/SectionDivider';
-import styled from '@emotion/styled';
-import { fetchProductSummary } from '@/api/products';
-import WishButton from './WishButton';
 
-interface ProductSummaryData {
-  id: number;
-  name: string;
-  price: number;
-  imageURL: string;
-  brandName?: string;
-}
+import {
+  fetchProductInfo,
+  fetchProductDetailHTML,
+  fetchHighlightReview,
+  fetchWishCount,
+  type WishCountData,
+} from '@/api/products';
+
+import WishButton from './WishButton';
+import { useState } from 'react';
 
 const ProductDetailPage = () => {
   const { productId } = useParams();
-  const [product, setProduct] = useState<ProductSummaryData | null>(null);
+  const id = Number(productId);
 
   const [activeTab, setActiveTab] = useState(0);
 
-  useEffect(() => {
-    if (!productId) return;
-    fetchProductSummary(Number(productId)).then((res) => setProduct(res.data));
-  }, [productId]);
+  const { data: product, isLoading: isProductLoading } = useQuery({
+    queryKey: ['product', id],
+    queryFn: () => fetchProductInfo(id),
+    enabled: !!productId,
+  });
 
-  if (!product) return <div>Loading...</div>;
+  const { data: detailHTML } = useQuery({
+    queryKey: ['productDetail', id],
+    queryFn: () => fetchProductDetailHTML(id),
+    enabled: !!productId,
+  });
+
+  const { data: highlightReview } = useQuery({
+    queryKey: ['highlightReview', id],
+    queryFn: () => fetchHighlightReview(id),
+    enabled: !!productId,
+  });
+
+  const { data: wishCount } = useQuery<WishCountData>({
+    queryKey: ['wishCount', productId],
+    queryFn: () => fetchWishCount(Number(productId)),
+    enabled: !!productId,
+  });
+
+  if (isProductLoading || !product) return <div>Loading...</div>;
 
   return (
     <Layout>
@@ -36,9 +56,9 @@ const ProductDetailPage = () => {
       <Container>
         <Image src={product.imageURL} alt={product.name} />
         <InfoSection>
-          <Brand>{product.brandName}</Brand>
+          <Brand>{product.brandInfo.name}</Brand>
           <Name>{product.name}</Name>
-          <Price>{product.price.toLocaleString()}원</Price>
+          <Price>{product.price.sellingPrice.toLocaleString()}원</Price>
         </InfoSection>
 
         <SectionDivider />
@@ -56,13 +76,15 @@ const ProductDetailPage = () => {
         </TabNav>
 
         <SectionContent>
-          {activeTab === 0 && <div>1</div>}
-          {activeTab === 1 && <div>2</div>}
-          {activeTab === 2 && <div>3</div>}
+          {activeTab === 0 && <div dangerouslySetInnerHTML={{ __html: detailHTML?.data ?? '' }} />}
+          {activeTab === 1 && (
+            <div dangerouslySetInnerHTML={{ __html: highlightReview?.data ?? '' }} />
+          )}
+          {activeTab === 2 && <div>선물정보 탭 (추후 작성)</div>}
         </SectionContent>
       </Container>
 
-      <WishButton />
+      <WishButton wishCount={wishCount?.wishCount ?? 0} isWished={wishCount?.isWished ?? false} />
       <BottomButton>주문하기</BottomButton>
     </Layout>
   );
@@ -70,6 +92,7 @@ const ProductDetailPage = () => {
 
 export default ProductDetailPage;
 
+// Styled Components
 const Container = styled.div`
   padding: 16px;
   padding-bottom: 72px;

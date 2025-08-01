@@ -1,16 +1,31 @@
 import styled from '@emotion/styled';
 import { Heart } from 'lucide-react';
+import isPropValid from '@emotion/is-prop-valid';
 
-const WishButton = () => {
+interface WishButtonProps {
+  wishCount: number;
+  isWished: boolean;
+}
+
+const WishButton = ({ wishCount, isWished }: WishButtonProps) => {
   return (
     <WishIcon>
-      <StyledHeartIcon />
-      <Count>123</Count>
+      <StyledHeartIcon isWished={isWished} />
+      <Count>{wishCount}</Count>
     </WishIcon>
   );
 };
 
 export default WishButton;
+
+const StyledHeartIcon = styled(Heart, {
+  shouldForwardProp: (prop) => isPropValid(prop) && prop !== 'isWished',
+})<{ isWished: boolean }>`
+  width: 18px;
+  height: 18px;
+  color: ${({ isWished, theme }) => (isWished ? theme.color.red00 : theme.color.gray600)};
+  fill: ${({ isWished, theme }) => (isWished ? theme.color.red00 : 'none')};
+`;
 
 const WishIcon = styled.button`
   position: fixed;
@@ -29,12 +44,6 @@ const WishIcon = styled.button`
   font-size: 16px;
   cursor: pointer;
   padding: 4px 0;
-`;
-
-const StyledHeartIcon = styled(Heart)`
-  color: ${({ theme }) => theme.color.gray600};
-  width: 18px;
-  height: 18px;
 `;
 
 const Count = styled.div`
