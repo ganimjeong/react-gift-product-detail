@@ -22,6 +22,7 @@ const CategorySection = () => {
   }
 
   if (error || categories.length === 0) {
+  if (error || categories.length === 0) {
     return null;
   }
 
@@ -44,5 +45,5 @@ const CategorySection = () => {
     </>
   );
 };
-
+}
 export default CategorySection;
