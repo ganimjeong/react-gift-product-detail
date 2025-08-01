@@ -15,6 +15,8 @@ import { useEffect, useState } from 'react';
 import { useReactQueryFetch } from '@/hooks/useReactQueryFetch';
 import ProductOverview from './ProductOverview';
 import ProductTabs from './ProductTabs';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { Suspense } from 'react';
 
 const ProductDetailPage = () => {
   const { productId } = useParams();
@@ -64,17 +66,21 @@ const ProductDetailPage = () => {
     <Layout>
       <NavigationBar />
 
-      <Container>
-        <ProductOverview product={product} />
-        <SectionDivider />
-        <ProductTabs
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          detailHTML={detailHTML}
-          highlightReviews={highlightReviews}
-          announcements={announcements}
-        />
-      </Container>
+      <ErrorBoundary fallback={<div>상품 정보를 불러오지 못했습니다.</div>}>
+        <Suspense fallback={<div>상품 상세 로딩 중...</div>}>
+          <Container>
+            <ProductOverview product={product} />
+            <SectionDivider />
+            <ProductTabs
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              detailHTML={detailHTML}
+              highlightReviews={highlightReviews}
+              announcements={announcements}
+            />
+          </Container>
+        </Suspense>
+      </ErrorBoundary>
 
       <WishButton wishCount={wishCount} isWished={isWished} onClick={handleWishToggle} />
       <BottomButton>주문하기</BottomButton>
