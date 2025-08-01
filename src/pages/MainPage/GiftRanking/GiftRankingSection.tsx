@@ -33,13 +33,13 @@ const GiftRankingSection = () => {
   const [selectedRankType, setSelectedRankType] = useState<RankType>(initialRankType);
 
   const {
-  data: response,
-  isLoading,
-  error,
-} = useReactQueryFetch<{ data: Product[] }>(
-  ['productRanking', selectedTargetType, selectedRankType],
-  () => fetchProductRanking(selectedTargetType, selectedRankType)
-);
+    data: response,
+    isLoading,
+    error,
+  } = useReactQueryFetch<{ data: Product[] }>(
+    ['productRanking', selectedTargetType, selectedRankType],
+    () => fetchProductRanking(selectedTargetType, selectedRankType)
+  );
 
   useEffect(() => {
     setSearchParams({
