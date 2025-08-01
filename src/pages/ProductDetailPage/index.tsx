@@ -20,6 +20,8 @@ const ProductDetailPage = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState<ProductSummaryData | null>(null);
 
+  const [activeTab, setActiveTab] = useState(0);
+
   useEffect(() => {
     if (!productId) return;
     fetchProductSummary(Number(productId)).then((res) => setProduct(res.data));
@@ -42,12 +44,22 @@ const ProductDetailPage = () => {
         <SectionDivider />
 
         <TabNav>
-          <Tab>상품설명</Tab>
-          <Tab>상세보기</Tab>
-          <Tab>선물정보</Tab>
+          <Tab onClick={() => setActiveTab(0)} isActive={activeTab === 0}>
+            상품설명
+          </Tab>
+          <Tab onClick={() => setActiveTab(1)} isActive={activeTab === 1}>
+            상세보기
+          </Tab>
+          <Tab onClick={() => setActiveTab(2)} isActive={activeTab === 2}>
+            선물정보
+          </Tab>
         </TabNav>
 
-        <SectionContent>TODO : 탭에 맞는 내용은 추후 구현 예정</SectionContent>
+        <SectionContent>
+          {activeTab === 0 && <div>1</div>}
+          {activeTab === 1 && <div>2</div>}
+          {activeTab === 2 && <div>3</div>}
+        </SectionContent>
       </Container>
 
       <WishIcon>
@@ -100,17 +112,18 @@ const TabNav = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.color.gray200};
 `;
 
-const Tab = styled.button`
-  background: none;
+const Tab = styled.button<{ isActive: boolean }>`
+  padding: 17px 83px;
+  background-color: white;
+  color: ${({ isActive, theme }) => (isActive ? theme.color.text.default : theme.color.gray600)};
   border: none;
-  padding: 12px;
-  font-size: 14px;
-  font-weight: bold;
+  border-bottom: ${({ isActive, theme }) =>
+    isActive ? `2px solid ${theme.color.text.default}` : '2px solid transparent'};
   cursor: pointer;
-  color: ${({ theme }) => theme.color.gray700};
+  font-weight: ${({ isActive }) => (isActive ? '600' : '400')};
 
   &:hover {
-    color: ${({ theme }) => theme.color.text.default};
+    background-color: ${({ theme }) => theme.color.gray100};
   }
 `;
 
