@@ -27,7 +27,7 @@ export const fetchProductRanking = async (targetType: TargetType, rankType: Rank
   return res.data;
 };
 
-//ProductSummary
+//ProductSummary -> 주문페이지, 제품상세페이지
 interface ProductSummaryData {
   id: number;
   name: string;

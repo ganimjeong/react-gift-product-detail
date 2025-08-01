@@ -15,6 +15,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { PATH } from '@/constants/paths';
 import ThemeProductPage from '@/pages/ThemeProductPage/ThemeProductPage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import ProductDetailPage from './pages/ProductDetailPage/ProductDetailPage';
+
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
@@ -46,6 +48,10 @@ const router = createBrowserRouter([
   {
     path: PATH.THEME_PRODUCTS_PATH,
     element: <ThemeProductPage />,
+  },
+  {
+    path: PATH.PRODUCT_DETAIL_PATH,
+    element: <ProductDetailPage />,
   },
 ]);
 

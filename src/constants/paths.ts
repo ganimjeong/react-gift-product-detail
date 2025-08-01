@@ -6,4 +6,6 @@ export const PATH = {
   ORDER_DETAIL_PATH: '/order/:id', // router 설정용
   THEME_PRODUCTS: (id: string | number) => `/themes/${id}`,
   THEME_PRODUCTS_PATH: '/themes/:themeId', // router 설정용
+  PRODUCT_DETAIL: (id: string | number) => `/product/${id}`,
+  PRODUCT_DETAIL_PATH: '/product/:productId',
 };
