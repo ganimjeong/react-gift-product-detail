@@ -9,7 +9,7 @@ const CategorySection = () => {
     data: response,
     isLoading,
     error,
-  } = useReactQueryFetch<Category[]>(['themeList'], fetchThemeList);
+  } = useReactQueryFetch<{ data: Category[] }>(['themeList'], fetchThemeList);
 
   const categories = response?.data || [];
 
