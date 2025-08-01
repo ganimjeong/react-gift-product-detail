@@ -50,15 +50,37 @@ export const fetchProductInfo = async (productId: number) => {
 };
 
 // 상품 상세 설명 API
+export interface ProductDetailData {
+  description: string;
+  announcements: {
+    name: string;
+    value: string;
+    displayOrder: number;
+  }[];
+}
+
 export const fetchProductDetailHTML = async (productId: number) => {
-  const res = await axios.get<{ data: string }>(`/products/${productId}/detail`);
-  return res.data;
+  const res = await axios.get<{ data: ProductDetailData }>(`/products/${productId}/detail`);
+  return res.data.data;
 };
 
 // 주요 리뷰 API
-export const fetchHighlightReview = async (productId: number) => {
-  const res = await axios.get<{ data: string }>(`/products/${productId}/highlight-review`);
-  return res.data;
+export interface HighlightReview {
+  id: string;
+  authorName: string;
+  content: string;
+}
+
+export interface HighlightReviewResponse {
+  totalCount: number;
+  reviews: HighlightReview[];
+}
+
+export const fetchHighlightReview = async (productId: number): Promise<HighlightReviewResponse> => {
+  const res = await axios.get<{ data: HighlightReviewResponse }>(
+    `/products/${productId}/highlight-review`
+  );
+  return res.data.data;
 };
 
 // 관심 등록 수 API

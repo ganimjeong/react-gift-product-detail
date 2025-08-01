@@ -37,8 +37,9 @@ const ProductDetailPage = () => {
   const { data: wishRes } = useReactQueryFetch(['wishCount', id], () => fetchWishCount(id));
 
   const product = productRes;
-  const detailHTML = detailRes?.data;
-  const highlightReview = reviewRes?.data;
+  const detailHTML = detailRes?.description;
+  const announcements = detailRes?.announcements ?? [];
+  const highlightReviews = reviewRes?.reviews ?? [];
 
   const [wishCount, setWishCount] = useState(0);
   const [isWished, setIsWished] = useState(false);
@@ -64,7 +65,6 @@ const ProductDetailPage = () => {
 
       <Container>
         <ProductOverview product={product} />
-
         <SectionDivider />
 
         <TabNav>
@@ -72,17 +72,39 @@ const ProductDetailPage = () => {
             상품설명
           </Tab>
           <Tab onClick={() => setActiveTab(1)} isActive={activeTab === 1}>
-            상세보기
+            선물후기
           </Tab>
           <Tab onClick={() => setActiveTab(2)} isActive={activeTab === 2}>
-            선물정보
+            상세정보
           </Tab>
         </TabNav>
 
         <SectionContent>
-          {activeTab === 0 && <div dangerouslySetInnerHTML={{ __html: detailHTML ?? '' }} />}
-          {activeTab === 1 && <div dangerouslySetInnerHTML={{ __html: highlightReview ?? '' }} />}
-          {activeTab === 2 && <div>선물정보 탭 (추후 작성)</div>}
+          {activeTab === 0 && (
+            <DescriptionHTML dangerouslySetInnerHTML={{ __html: detailHTML ?? '' }} />
+          )}
+
+          {activeTab === 1 && (
+            <ReviewList>
+              {highlightReviews.map((review) => (
+                <ReviewItem key={review.id}>
+                  <Reviewer>{review.authorName}</Reviewer>
+                  <ReviewContent>{review.content}</ReviewContent>
+                </ReviewItem>
+              ))}
+            </ReviewList>
+          )}
+
+          {activeTab === 2 && (
+            <AnnouncementList>
+              {announcements.map((item) => (
+                <AnnouncementItem key={item.displayOrder}>
+                  <strong>{item.name}</strong>
+                  <span>{item.value}</span>
+                </AnnouncementItem>
+              ))}
+            </AnnouncementList>
+          )}
         </SectionContent>
       </Container>
 
@@ -95,7 +117,6 @@ const ProductDetailPage = () => {
 export default ProductDetailPage;
 
 const Container = styled.div`
-  padding: 16px;
   padding-bottom: 72px;
 `;
 
@@ -125,4 +146,58 @@ const SectionContent = styled.div`
   min-height: 200px;
   border-radius: 8px;
   padding: 16px;
+`;
+
+//내용부분
+const DescriptionHTML = styled.div`
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+`;
+
+const AnnouncementList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+const AnnouncementItem = styled.li`
+  strong {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: ${({ theme }) => theme.color.gray800};
+  }
+  span {
+    color: ${({ theme }) => theme.color.gray700};
+    font-size: 14px;
+  }
+  margin-bottom: 20px;
+`;
+
+//선물 후기 부분
+const ReviewList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+const ReviewItem = styled.li`
+  padding: 12px 16px;
+  background-color: ${({ theme }) => theme.color.gray100};
+  border-radius: 8px;
+`;
+
+const Reviewer = styled.p`
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: ${({ theme }) => theme.color.gray800};
+`;
+
+const ReviewContent = styled.p`
+  color: ${({ theme }) => theme.color.gray700};
+  font-size: 15px;
+  line-height: 1.5;
 `;

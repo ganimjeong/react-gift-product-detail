@@ -1,10 +1,9 @@
-// src/components/NavigationBar/NavigationBar.styles.ts
 import styled from '@emotion/styled';
 
 export const Wrapper = styled.header`
   max-width: 700px;
   width: 100%;
-  height: 44px;
+  height: 50px;
   padding: 0 10px;
 
   display: flex;

@@ -1,4 +1,3 @@
-import GlobalStyle from '@/styles/GlobalStyle';
 import GlobalFontStyle from '@/styles/GlobalFontStyle';
 import NavigationBar from '@/components/NavigationBar/NavigationBar';
 import CategorySection from '@/pages/MainPage/Category/CategorySection';
@@ -11,7 +10,6 @@ function App() {
   return (
     <>
       <Layout>
-        <GlobalStyle />
         <GlobalFontStyle />
         <NavigationBar />
         <GiftReceiverSelect />
