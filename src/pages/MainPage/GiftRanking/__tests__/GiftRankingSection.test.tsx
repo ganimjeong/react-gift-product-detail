@@ -31,7 +31,7 @@ export const renderWithProviders = (ui: React.ReactElement) => {
 };
 
 const server = setupServer(
-  rest.get('/api/products/ranking', (_req, res, ctx) => {
+  rest.get('/api/products/ranking?targetType=ALL&rankType=MANY_WISH', (_req, res, ctx) => {
     return res(ctx.status(200), ctx.json({ data: mockGiftRanking }));
   })
 );
@@ -54,7 +54,7 @@ describe('GiftRankingSection', () => {
 
   test('API 에러 시 에러 메시지를 보여준다', async () => {
     server.use(
-      rest.get('/api/products/ranking', (_req, res, ctx) => {
+      rest.get('/api/products/ranking?targetType=ALL&rankType=MANY_WISH', (_req, res, ctx) => {
         return res(ctx.status(500), ctx.json({ message: '서버 에러' }));
       })
     );
