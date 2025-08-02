@@ -17,6 +17,8 @@ import ProductOverview from './ProductOverview';
 import ProductTabs from './ProductTabs';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { Suspense } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { PATH } from '@/constants/paths';
 
 const ProductDetailPage = () => {
   const { productId } = useParams();
@@ -62,6 +64,11 @@ const ProductDetailPage = () => {
 
   if (isProductLoading || !product) return <div>Loading...</div>;
 
+  const navigate = useNavigate();
+  const goToOrderPage = () => {
+    navigate(PATH.PRODUCT_DETAIL(id));
+  };
+
   return (
     <Layout>
       <NavigationBar />
@@ -83,7 +90,7 @@ const ProductDetailPage = () => {
       </ErrorBoundary>
 
       <WishButton wishCount={wishCount} isWished={isWished} onClick={handleWishToggle} />
-      <BottomButton>주문하기</BottomButton>
+      <BottomButton onClick={goToOrderPage}>주문하기</BottomButton>
     </Layout>
   );
 };
