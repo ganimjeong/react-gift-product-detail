@@ -9,7 +9,6 @@ import Layout from '@/components/Layout';
 const ThemeProductPage = () => {
   const { themeId } = useParams<{ themeId: string }>();
 
-
   return (
     <Layout>
       <NavigationBar />
