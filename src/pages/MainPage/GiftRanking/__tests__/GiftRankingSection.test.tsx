@@ -2,12 +2,14 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import GiftRankingSection from '../GiftRankingSection';
-import { mockGiftRanking } from '../../../../mocks/mock';
+import { mockGiftRanking } from '@/mocks/mock';
 import { ThemeProvider } from '@emotion/react';
 import { theme } from '@/styles/theme';
 import { MemoryRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import userEvent from '@testing-library/user-event';
+
+import { beforeAll, afterEach, afterAll, describe, test, expect } from 'vitest'; // ★ vitest 훅 임포트
 
 const createTestQueryClient = () =>
   new QueryClient({
@@ -43,6 +45,7 @@ const server = setupServer(
   })
 );
 
+// vitest lifecycle 훅으로 MSW 서버 관리
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());

@@ -3,6 +3,7 @@ import { ThemeProvider } from '@emotion/react';
 import TextInputBox from '../TextInputBox';
 import '@testing-library/jest-dom';
 import { theme } from '@/styles/theme';
+import { describe, it, expect } from 'vitest';
 
 describe('TextInputBox 컴포넌트', () => {
   const renderWithTheme = (ui: React.ReactElement) =>

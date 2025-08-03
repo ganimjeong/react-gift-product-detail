@@ -5,6 +5,7 @@ import { ThemeProvider } from '@emotion/react';
 import { theme } from '@/styles/theme';
 import { MemoryRouter } from 'react-router-dom';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { describe, it, expect } from 'vitest';
 
 describe('LoginPage', () => {
   const renderWithProviders = (ui: React.ReactElement) =>
@@ -31,7 +32,6 @@ describe('LoginPage', () => {
     fireEvent.change(emailInput, { target: { value: 'ajin@example.com' } });
     fireEvent.change(pwInput, { target: { value: 'password123' } });
 
-    // waitFor로 input 값 반영을 기다림
     await waitFor(() => {
       expect(emailInput).toHaveValue('ajin@example.com');
       expect(pwInput).toHaveValue('password123');
