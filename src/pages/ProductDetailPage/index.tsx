@@ -23,6 +23,7 @@ import { PATH } from '@/constants/paths';
 const ProductDetailPage = () => {
   const { productId } = useParams();
   const id = Number(productId);
+  const navigate = useNavigate();
 
   const [activeTab, setActiveTab] = useState(0);
 
@@ -64,9 +65,8 @@ const ProductDetailPage = () => {
 
   if (isProductLoading || !product) return <div>Loading...</div>;
 
-  const navigate = useNavigate();
   const goToOrderPage = () => {
-    navigate(PATH.PRODUCT_DETAIL(id));
+    navigate(PATH.ORDER_DETAIL(id));
   };
 
   return (
