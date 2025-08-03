@@ -1,20 +1,23 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import App from '@/App.tsx';
+import App from '@/pages/MainPage/App';
+import GlobalStyle from '@/styles/GlobalStyle';
 import { ThemeProvider } from '@emotion/react';
 import { theme } from '@/styles/theme';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { AuthProvider } from '@/contexts/AuthContext';
-import LoginPage from '@/pages/LoginPage/LoginPage';
+import LoginPage from '@/pages/LoginPage';
 import NotFoundPage from '@/pages/NotFoundPage.tsx';
 import MyPage from '@/pages/MyPage/MyPage';
 import PrivateRoute from '@/PrivateRoute';
-import OrderPage from '@/pages/OrderPage/OrderPage';
+import OrderPage from '@/pages/OrderPage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { PATH } from '@/constants/paths';
-import ThemeProductPage from '@/pages/ThemeProductPage/ThemeProductPage';
+import ThemeProductPage from '@/pages/ThemeProductPage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import ProductDetailPage from '@/pages/ProductDetailPage';
+
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
@@ -47,15 +50,22 @@ const router = createBrowserRouter([
     path: PATH.THEME_PRODUCTS_PATH,
     element: <ThemeProductPage />,
   },
+  {
+    path: PATH.PRODUCT_DETAIL_PATH,
+    element: <ProductDetailPage />,
+  },
 ]);
 
 createRoot(document.getElementById('root')!).render(
+  <StrictMode>
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
+        <GlobalStyle />
         <AuthProvider>
           <RouterProvider router={router} />
           <ToastContainer position="top-center" autoClose={2000} />
         </AuthProvider>
       </ThemeProvider>
+    </QueryClientProvider>
   </StrictMode>
 );

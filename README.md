@@ -330,6 +330,10 @@ hint : 받는 사람 기능 구현할 때 useFieldArray 사용?
 
 # react-gift-product-detail
 
+<details>
+<summary>1단계 구현기능 목록 보기</summary>
+<div markdown="1">
+
 ## 📌 1단계 - 구현 기능 목록
 
 - 기존에 작성했던 API를 React Query를 이용해서 리팩터링
@@ -348,5 +352,33 @@ hint : 받는 사람 기능 구현할 때 useFieldArray 사용?
 
 ### 리팩토링
 
+- axios로 공통 baseURL을 가진 instance 정의
+
 - API 호출을 사용하는 위치에서 직접 선언해서 사용하는 구조 개선
-  - axios로 공통 baseURL을 가진 instance를 정의해두고, 각 API는 api/ 디렉토리 내에서 기능 단위로 나눠 관리
+  - 각 API로직을 `api/` 디렉토리 내에서 기능 단위로 나눠 관리
+
+- `api/` 디렉토리 내 로직을 axios를 사용하도록 통일
+
+</div>
+</details>
+
+---
+
+## 📌 2단계 - 구현 기능 목록
+
+### 1. 상품 상세 페이지
+
+- 상품 상세 페이지 UI구현
+
+- 아래 API를 모두 사용하기
+  - 상품 정보 API: `/api/products/:productId`
+  - 상품 세부 정보 API: `/api/products/:productId/detail`
+  - 상품 주요 리뷰 API: `/api/products/:productId/highlight-review`
+  - 상품 관심 등록 수 API: `/api/products/:productId/wish`
+  - react query 등을 활용
+
+- 상품 관심 등록 버튼 클릭 시 낙관적 업데이트를 통해 상품 관심 등록 수를 변경
+  - 실제 API 반영은 없기 때문에, 새로고침 하면 사라짐
+
+- ErrorBoundary와 Suspense를 사용하여 코드 구조를 리팩터링
+  - 단, ErrorBoundary는 관련 라이브러리를 사용하지 않고 구현

@@ -15,5 +15,5 @@ export const fetchThemeList = async () => {
 //ThemeHero
 export const fetchThemeInfo = async (themeId: string) => {
   const res = await axios.get(`/themes/${themeId}/info`);
-  return res.data;
+  return res.data.data;
 };

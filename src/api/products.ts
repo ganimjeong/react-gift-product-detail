@@ -27,7 +27,7 @@ export const fetchProductRanking = async (targetType: TargetType, rankType: Rank
   return res.data;
 };
 
-//ProductSummary
+//ProductSummary (주문페이지 하단)
 interface ProductSummaryData {
   id: number;
   name: string;
@@ -39,4 +39,57 @@ interface ProductSummaryData {
 export const fetchProductSummary = async (productId: number) => {
   const res = await axios.get<{ data: ProductSummaryData }>(`/products/${productId}/summary`);
   return res.data;
+};
+
+//제품상세페이지
+
+// 상품 정보 API
+export const fetchProductInfo = async (productId: number) => {
+  const res = await axios.get<{ data: Product }>(`/products/${productId}`);
+  return res.data.data;
+};
+
+// 상품 상세 설명 API
+export interface ProductDetailData {
+  description: string;
+  announcements: {
+    name: string;
+    value: string;
+    displayOrder: number;
+  }[];
+}
+
+export const fetchProductDetailHTML = async (productId: number) => {
+  const res = await axios.get<{ data: ProductDetailData }>(`/products/${productId}/detail`);
+  return res.data.data;
+};
+
+// 주요 리뷰 API
+export interface HighlightReview {
+  id: string;
+  authorName: string;
+  content: string;
+}
+
+export interface HighlightReviewResponse {
+  totalCount: number;
+  reviews: HighlightReview[];
+}
+
+export const fetchHighlightReview = async (productId: number): Promise<HighlightReviewResponse> => {
+  const res = await axios.get<{ data: HighlightReviewResponse }>(
+    `/products/${productId}/highlight-review`
+  );
+  return res.data.data;
+};
+
+// 관심 등록 수 API
+export interface WishCountData {
+  wishCount: number;
+  isWished: boolean;
+}
+
+export const fetchWishCount = async (productId: number): Promise<WishCountData> => {
+  const res = await axios.get<{ data: WishCountData }>(`/products/${productId}/wish`);
+  return res.data.data;
 };

@@ -2,7 +2,8 @@ import NavigationBar from '@/components/NavigationBar/NavigationBar';
 import { messageCards } from '@/data/messageCards';
 import MessageCardSelector, { type MessageCard } from './MessageCardSelector/MessageCardSelector';
 import SelectedCardPreview from './SelectedCardPreview/SelectedCardPreview';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import Layout from '@/components/Layout';
 import SectionTitle from '@/components/SectionTitle';
 import SectionDivider from '@/components/SectionDivider';
@@ -97,29 +98,32 @@ const OrderPage = () => {
   return (
     <Layout>
       <NavigationBar />
-      <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <MessageCardSelector
-            cards={messageCards}
-            selectedId={selectedCard?.id ?? null}
-            onSelect={handleSelectCard}
-          />
-          <SelectedCardPreview
-            card={selectedCard ?? messageCards[0]}
-            message={watch('message') ?? ''}
-            onChange={(val) => setValue('message', val, { shouldValidate: true })}
-          />
-          <SectionDivider />
-          <SenderInfo />
-          <SectionDivider />
-          <ReceiverSection />
-          <SectionDivider />
-          <SectionTitle title="상품 정보" />
-          <ProductSummary />
-
-          <BottomButton type="submit">주문하기</BottomButton>
-        </form>
-      </FormProvider>
+      <ErrorBoundary fallback={<div>주문 페이지를 불러오는 중 오류가 발생했어요.</div>}>
+        <Suspense fallback={<div>주문 페이지 로딩 중...</div>}>
+          <FormProvider {...methods}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <MessageCardSelector
+                cards={messageCards}
+                selectedId={selectedCard?.id ?? null}
+                onSelect={handleSelectCard}
+              />
+              <SelectedCardPreview
+                card={selectedCard ?? messageCards[0]}
+                message={watch('message') ?? ''}
+                onChange={(val) => setValue('message', val, { shouldValidate: true })}
+              />
+              <SectionDivider />
+              <SenderInfo />
+              <SectionDivider />
+              <ReceiverSection />
+              <SectionDivider />
+              <SectionTitle title="상품 정보" />
+              <ProductSummary />
+              <BottomButton type="submit">주문하기</BottomButton>
+            </form>
+          </FormProvider>
+        </Suspense>
+      </ErrorBoundary>
     </Layout>
   );
 };
