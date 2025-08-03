@@ -1,4 +1,6 @@
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import styled from '@emotion/styled';
+import { Suspense } from 'react';
 
 interface Props {
   activeTab: number;
@@ -31,29 +33,41 @@ const ProductTabs = ({
 
       <SectionContent>
         {activeTab === 0 && (
-          <DescriptionHTML dangerouslySetInnerHTML={{ __html: detailHTML ?? '' }} />
+          <ErrorBoundary fallback={<p>상품 설명을 불러오지 못했습니다.</p>}>
+            <Suspense fallback={<p>상품 설명 로딩 중...</p>}>
+              <DescriptionHTML dangerouslySetInnerHTML={{ __html: detailHTML ?? '' }} />
+            </Suspense>
+          </ErrorBoundary>
         )}
 
         {activeTab === 1 && (
-          <ReviewList>
-            {highlightReviews.map((review) => (
-              <ReviewItem key={review.id}>
-                <Reviewer>{review.authorName}</Reviewer>
-                <ReviewContent>{review.content}</ReviewContent>
-              </ReviewItem>
-            ))}
-          </ReviewList>
+          <ErrorBoundary fallback={<p>후기를 불러오지 못했습니다.</p>}>
+            <Suspense fallback={<p>후기 로딩 중...</p>}>
+              <ReviewList>
+                {highlightReviews.map((review) => (
+                  <ReviewItem key={review.id}>
+                    <Reviewer>{review.authorName}</Reviewer>
+                    <ReviewContent>{review.content}</ReviewContent>
+                  </ReviewItem>
+                ))}
+              </ReviewList>
+            </Suspense>
+          </ErrorBoundary>
         )}
 
         {activeTab === 2 && (
-          <AnnouncementList>
-            {announcements.map((item) => (
-              <AnnouncementItem key={item.displayOrder}>
-                <strong>{item.name}</strong>
-                <span>{item.value}</span>
-              </AnnouncementItem>
-            ))}
-          </AnnouncementList>
+          <ErrorBoundary fallback={<p>상세 정보를 불러오지 못했습니다.</p>}>
+            <Suspense fallback={<p>상세 정보 로딩 중...</p>}>
+              <AnnouncementList>
+                {announcements.map((item) => (
+                  <AnnouncementItem key={item.displayOrder}>
+                    <strong>{item.name}</strong>
+                    <span>{item.value}</span>
+                  </AnnouncementItem>
+                ))}
+              </AnnouncementList>
+            </Suspense>
+          </ErrorBoundary>
         )}
       </SectionContent>
     </>

@@ -115,9 +115,9 @@ const OrderPage = () => {
           <SectionDivider />
           <ReceiverSection />
           <SectionDivider />
-          <SectionTitle title="상품 정보" />
           <ErrorBoundary fallback={<div>상품 정보를 불러오는 중 오류가 발생했어요.</div>}>
             <Suspense fallback={<div>상품 정보를 불러오는 중이에요...</div>}>
+              <SectionTitle title="상품 정보" />
               <ProductSummary />
             </Suspense>
           </ErrorBoundary>
