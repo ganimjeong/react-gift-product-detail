@@ -1,11 +1,8 @@
-import { rest } from 'msw';
-import { mockGiftRanking } from './mock'; 
+import { http, HttpResponse } from "msw";
+import { mockGiftRanking } from "./mock";
 
 export const giftRankingHandlers = [
-  rest.get('/api/gift-rankings', (_req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({ data: mockGiftRanking }) 
-    );
+  http.get('/api/gift-rankings', () => {
+    return HttpResponse.json({ data: mockGiftRanking }, { status: 200 });
   }),
 ];

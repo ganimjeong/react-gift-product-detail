@@ -1,8 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
+import { http, HttpResponse } from 'msw';
 import GiftRankingSection from '../GiftRankingSection';
-import { mockGiftRanking } from '@/mocks/mock';
 import { ThemeProvider } from '@emotion/react';
 import { theme } from '@/styles/theme';
 import { MemoryRouter } from 'react-router-dom';
@@ -10,6 +8,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import userEvent from '@testing-library/user-event';
 
 import { beforeAll, afterEach, afterAll, describe, test, expect } from 'vitest'; // ★ vitest 훅 임포트
+import { server } from '@/mocks/server';
 
 const createTestQueryClient = () =>
   new QueryClient({
@@ -32,19 +31,6 @@ export const renderWithProviders = (ui: React.ReactElement) => {
   );
 };
 
-const server = setupServer(
-  rest.get('/api/products/ranking', (req, res, ctx) => {
-    const targetType = req.url.searchParams.get('targetType');
-    const rankType = req.url.searchParams.get('rankType');
-
-    if (targetType === 'ALL' && rankType === 'MANY_WISH') {
-      return res(ctx.status(200), ctx.json({ data: mockGiftRanking }));
-    }
-
-    return res(ctx.status(404));
-  })
-);
-
 // vitest lifecycle 훅으로 MSW 서버 관리
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
@@ -64,15 +50,8 @@ describe('GiftRankingSection', () => {
 
   test('API 에러 시 에러 메시지를 보여준다', async () => {
     server.use(
-      rest.get('/api/products/ranking', (req, res, ctx) => {
-        const targetType = req.url.searchParams.get('targetType');
-        const rankType = req.url.searchParams.get('rankType');
-
-        if (targetType === 'ALL' && rankType === 'MANY_WISH') {
-          return res(ctx.status(500), ctx.json({ message: '서버 에러' }));
-        }
-
-        return res(ctx.status(404));
+      http.get('/api/products/ranking', ({ request }) => {
+          return HttpResponse.json({ message: '서버 에러' }, { status: 500 });
       })
     );
 
