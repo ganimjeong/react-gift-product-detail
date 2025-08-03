@@ -31,8 +31,15 @@ export const renderWithProviders = (ui: React.ReactElement) => {
 };
 
 const server = setupServer(
-  rest.get('/api/products/ranking?targetType=ALL&rankType=MANY_WISH', (_req, res, ctx) => {
-    return res(ctx.status(200), ctx.json({ data: mockGiftRanking }));
+  rest.get('/api/products/ranking', (req, res, ctx) => {
+    const targetType = req.url.searchParams.get('targetType');
+    const rankType = req.url.searchParams.get('rankType');
+
+    if (targetType === 'ALL' && rankType === 'MANY_WISH') {
+      return res(ctx.status(200), ctx.json({ data: mockGiftRanking }));
+    }
+
+    return res(ctx.status(404));
   })
 );
 
