@@ -3,7 +3,8 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "jsx": "react-jsx",
-    "types": ["jest", "@testing-library/jest-dom", "node"]
+    "jsxImportSource": "@emotion/react",
+    "types": ["vitest", "@testing-library/jest-dom", "node"]
   },
-  "include": ["src", "jest.setup.ts", "**/*.test.ts", "**/*.test.tsx"]
+  "include": ["src", "tests/vitest.setup.ts", "**/*.test.ts", "**/*.test.tsx"]
 }

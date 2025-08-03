@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import GiftRankingSection from '../GiftRankingSection';
-import { mockGiftRanking } from '../mock';
+import { mockGiftRanking } from '../../../../mocks/mock';
 import { ThemeProvider } from '@emotion/react';
 import { theme } from '@/styles/theme';
 import { MemoryRouter } from 'react-router-dom';

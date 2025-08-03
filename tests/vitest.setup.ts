@@ -1,5 +1,8 @@
-import '@testing-library/jest-dom';
+import './polyfills';
 import 'whatwg-fetch';
+import { beforeAll, afterEach, afterAll, expect } from 'vitest';
+import { server } from '../src/mocks/server';
+import * as matchers from '@testing-library/jest-dom/matchers';
 
 class MockBroadcastChannel implements BroadcastChannel {
   readonly name: string;
@@ -10,7 +13,7 @@ class MockBroadcastChannel implements BroadcastChannel {
     this.name = name;
   }
 
-  postMessage(message: any): void {}
+  postMessage(_message: any): void {}
   close(): void {}
   addEventListener(): void {}
   removeEventListener(): void {}
@@ -19,4 +22,13 @@ class MockBroadcastChannel implements BroadcastChannel {
   }
 }
 
-(global as any).BroadcastChannel = MockBroadcastChannel;
+(globalThis as any).BroadcastChannel = MockBroadcastChannel;
+
+
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
+
+expect.extend(matchers);
+
