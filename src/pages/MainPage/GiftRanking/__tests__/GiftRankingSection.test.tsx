@@ -61,8 +61,15 @@ describe('GiftRankingSection', () => {
 
   test('API 에러 시 에러 메시지를 보여준다', async () => {
     server.use(
-      rest.get('/api/products/ranking?targetType=ALL&rankType=MANY_WISH', (_req, res, ctx) => {
-        return res(ctx.status(500), ctx.json({ message: '서버 에러' }));
+      rest.get('/api/products/ranking', (req, res, ctx) => {
+        const targetType = req.url.searchParams.get('targetType');
+        const rankType = req.url.searchParams.get('rankType');
+
+        if (targetType === 'ALL' && rankType === 'MANY_WISH') {
+          return res(ctx.status(500), ctx.json({ message: '서버 에러' }));
+        }
+
+        return res(ctx.status(404));
       })
     );
 
