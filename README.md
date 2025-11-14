@@ -362,8 +362,6 @@ hint : 받는 사람 기능 구현할 때 useFieldArray 사용?
 </div>
 </details>
 
----
-
 <details>
 <summary>2단계 구현기능 목록 보기</summary>
 <div markdown="1">
@@ -389,3 +387,5 @@ hint : 받는 사람 기능 구현할 때 useFieldArray 사용?
  
 </div>
 </details>
+
+---
