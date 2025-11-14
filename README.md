@@ -384,8 +384,8 @@ hint : 받는 사람 기능 구현할 때 useFieldArray 사용?
 - 상품 관심 등록 버튼 클릭 시 낙관적 업데이트를 통해 상품 관심 등록 수를 변경
   - 실제 API 반영은 없기 때문에, 새로고침 하면 사라짐
 
-  </div>
-</details>
-
 - ErrorBoundary와 Suspense를 사용하여 코드 구조를 리팩터링
   - 단, ErrorBoundary는 관련 라이브러리를 사용하지 않고 구현
+ 
+</div>
+</details>
