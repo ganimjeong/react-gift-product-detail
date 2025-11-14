@@ -364,6 +364,10 @@ hint : 받는 사람 기능 구현할 때 useFieldArray 사용?
 
 ---
 
+<details>
+<summary>2단계 구현기능 목록 보기</summary>
+<div markdown="1">
+  
 ## 📌 2단계 - 구현 기능 목록
 
 ### 1. 상품 상세 페이지
@@ -379,6 +383,9 @@ hint : 받는 사람 기능 구현할 때 useFieldArray 사용?
 
 - 상품 관심 등록 버튼 클릭 시 낙관적 업데이트를 통해 상품 관심 등록 수를 변경
   - 실제 API 반영은 없기 때문에, 새로고침 하면 사라짐
+
+  </div>
+</details>
 
 - ErrorBoundary와 Suspense를 사용하여 코드 구조를 리팩터링
   - 단, ErrorBoundary는 관련 라이브러리를 사용하지 않고 구현
